@@ -23,10 +23,11 @@ function getMealList(){
                 html += `
                     <div class = "meal-item" data-id = "${meal.idMeal}">
                         <div class = "meal-img">
-                            <img onclick="foodDetails('${meal.searchInputTxt})" src = "${meal.strMealThumb}" alt = "food">
+                            <img onclick="imageClick('${meal.idMeal}')" src = "${meal.strMealThumb}" alt = "food">
                         </div>
                         <div class = "meal-name">
                             <h3>${meal.strMeal}</h3>
+                            <a href = "#" class = "recipe-btn">Get Recipe</a>
                         </div>
                     </div>
                 `;
@@ -49,9 +50,7 @@ function getMealRecipe(e){
         let mealItem = e.target.parentElement.parentElement;
         fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealItem.dataset.id}`)
         .then(response => response.json())
-        .then(data => {
-          mealRecipeModal(data.meals);
-        });
+        .then(data => mealRecipeModal(data.meals));
     }
 }
 
@@ -78,18 +77,3 @@ function mealRecipeModal(meal){
 }
 
 
-
-const foodDetails = name =>{
-     const url = `https://www.themealdb.com/api/json/v1/1/list.php?i=${name}`
-     fetch(url)
-     .then(res => res.json())
-     .then(data => renderFoodInfo(data[0]));
- }
- 
- const renderFoodInfo = item =>{
-     const foodDetail = document.getElementById('food-details');
-     countryDetail.innerHTML = `
-     <h1>Name: ${item.strIngredient}</h1>
-
-     `
- }
